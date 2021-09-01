@@ -131,4 +131,29 @@ foreach (sort keys %ENV){
 
 
 
+##第七章
+##123456
+while(<STDIN>){
+    if(/fred/){
+        print "fred match  ",$_; 
+    }
+    if(/fred|Fred/){
+        print "fred or Fred match  ",$_; 
+    }
+    if(/\./){
+        print "point match  ",$_; 
+    }
+    if(/[A-Z]/){
+        print "Start with a capital letter match  ",$_; 
+    }
+    if(/(.)\1/){
+        print "Any two consecutive characters match  ",$_; 
+    }
+    if(/(\S)\1/){
+        print "Any two consecutive non white space characters match  ",$_; 
+    }
+    if(/wilma.*fred|fred.*wilma/){
+        print "wilma and fred match"
+    }
+}
 
