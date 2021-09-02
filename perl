@@ -157,3 +157,59 @@ while(<STDIN>){
     }
 }
 
+##第八章
+##1
+# while(<STDIN>){
+    # chomp;
+    # if (/match/){
+        # print "match |$`<$&>$'|\n";   ## $& 存放匹配中的值
+    # }else{
+        # print "no match\n";    
+    # }
+# }
+
+##2
+# while(<STDIN>){
+    # chomp;
+    # if (/a\z/){
+        # print "match |$`<$&>$'|\n";   ## $& 存放匹配中的值
+    # }else{
+        # print "no match\n";    
+    # }
+# }
+
+##3
+# while(<STDIN>){
+    # chomp;
+    # if (/(a\z)/){
+        # print "match |$`<$&>$'|\n";   ##$`存放匹配之前的值  $& 存放匹配中的值 $'存放匹配之后的值
+        # print "\$1 contains '$1'\n";  ## $1 第一对小括号中的原符号所对应的匹配内容
+    # }else{
+        # print "no match\n";    
+    # }
+# }
+
+##4    \z 以指定字符结尾 \b匹配以英文字母,数字为边界的字符串  \w英文字母或数字的字符串
+# use 5.010;
+# while(<STDIN>){
+    # chomp;
+    # if (/(?<name>\w+a\b)/){                    # ?<label> 对应捕获的值
+        # print "match |$`<$&>$'|\n";           ##$`存放匹配之前的值  $& 存放匹配中的值 $'存放匹配之后的值
+        # print "name contains '$+{name}'\n";   ## 捕获的内容存储在哈希$+
+    # }else{
+        # print "no match\n";    
+    # }
+# }
+
+
+##5
+use 5.010;
+while(<STDIN>){
+    chomp;
+    if (/(?<name>\w+a\b)(.{0,5})/){                    # ?<label> 对应捕获的值
+        print "match |$`<$&>$'|\n";           ##$`存放匹配之前的值  $& 存放匹配中的值 $'存放匹配之后的值
+        print "name contains '$+{name}'\n";   ## 捕获的内容存储在哈希$+
+    }else{
+        print "no match\n";    
+    }
+}
