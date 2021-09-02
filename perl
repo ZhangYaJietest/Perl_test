@@ -157,59 +157,182 @@ while(<STDIN>){
     }
 }
 
-##第八章
-##1
-# while(<STDIN>){
-    # chomp;
-    # if (/match/){
-        # print "match |$`<$&>$'|\n";   ## $& 存放匹配中的值
-    # }else{
-        # print "no match\n";    
-    # }
-# }
+#第八章
+#1
+while(<STDIN>){
+    chomp;
+    if (/match/){
+        print "match |$`<$&>$'|\n";   ## $& 存放匹配中的值
+    }else{
+        print "no match\n";    
+    }
+}
 
-##2
-# while(<STDIN>){
-    # chomp;
-    # if (/a\z/){
-        # print "match |$`<$&>$'|\n";   ## $& 存放匹配中的值
-    # }else{
-        # print "no match\n";    
-    # }
-# }
+#2
+while(<STDIN>){
+    chomp;
+    if (/a\z/){
+        print "match |$`<$&>$'|\n";   ## $& 存放匹配中的值
+    }else{
+        print "no match\n";    
+    }
+}
 
-##3
-# while(<STDIN>){
-    # chomp;
-    # if (/(a\z)/){
-        # print "match |$`<$&>$'|\n";   ##$`存放匹配之前的值  $& 存放匹配中的值 $'存放匹配之后的值
-        # print "\$1 contains '$1'\n";  ## $1 第一对小括号中的原符号所对应的匹配内容
-    # }else{
-        # print "no match\n";    
-    # }
-# }
+#3
+while(<STDIN>){
+    chomp;
+    if (/(a\z)/){
+        print "match |$`<$&>$'|\n";   ##$`存放匹配之前的值  $& 存放匹配中的值 $'存放匹配之后的值
+        print "\$1 contains '$1'\n";  ## $1 第一对小括号中的原符号所对应的匹配内容
+    }else{
+        print "no match\n";    
+    }
+}
 
-##4    \z 以指定字符结尾 \b匹配以英文字母,数字为边界的字符串  \w英文字母或数字的字符串
-# use 5.010;
-# while(<STDIN>){
-    # chomp;
-    # if (/(?<name>\w+a\b)/){                    # ?<label> 对应捕获的值
-        # print "match |$`<$&>$'|\n";           ##$`存放匹配之前的值  $& 存放匹配中的值 $'存放匹配之后的值
-        # print "name contains '$+{name}'\n";   ## 捕获的内容存储在哈希$+
-    # }else{
-        # print "no match\n";    
-    # }
-# }
-
-
-##5
+#4    \z 以指定字符结尾 \b匹配以英文字母,数字为边界的字符串  \w英文字母或数字的字符串
 use 5.010;
 while(<STDIN>){
     chomp;
-    if (/(?<name>\w+a\b)(.{0,5})/){                    # ?<label> 对应捕获的值
+    if (/(?<name>\w*a\b)/){                    # ?<label> 对应捕获的值
         print "match |$`<$&>$'|\n";           ##$`存放匹配之前的值  $& 存放匹配中的值 $'存放匹配之后的值
         print "name contains '$+{name}'\n";   ## 捕获的内容存储在哈希$+
     }else{
         print "no match\n";    
     }
 }
+
+
+#5
+use 5.010;
+while(<STDIN>){
+    chomp;
+    if (/(?<name>\w*a\b)(.{0,5})/xs){       # ?<label> 对应捕获的值
+        print "match $+{name}\n";           ##$`存放匹配之前的值  $& 存放匹配中的值 $'存放匹配之后的值
+        print "name contains $2\n";         ## $2 第二个小括号
+    }else{
+        print "no match\n";    
+    }
+}
+
+
+
+#第9章
+#1
+$what = 'yes|no';
+while(<STDIN>){
+    chomp;
+    if (/($what){3}/){      
+        print "match $1\n";              
+    }else{
+        print "no match\n";    
+    }
+}
+
+#2
+
+$filename = 'out.out';
+if 
+
+
+#第十章
+#1
+$number = int(1 + rand 100);
+print "$number\n";
+while(<>){
+    chomp;
+	if ($_ == $number){
+	    print "bingo\n";
+	    last;
+	}elsif(/quit|exit/i){
+	    print "number is $number\n";
+		last;
+	}
+	elsif($_ < $number){
+	    print "too low\n";
+	}else{
+	    print "too high\n";
+	}
+	
+}
+
+#3
+
+use 5.010;
+$ENV{wne} = undef;
+$ENV{wtwo} = '';
+$ENV{wundef} = 0;
+foreach $key(sort keys %ENV){
+    if (! defined($ENV{$key})) {
+	    print "$key \n";
+	}
+}
+
+
+#Chapter 12
+#1
+foreach $name(@ARGV){
+    unless(-e $name){
+	    print "$name not exist\n";
+	}
+	if(-r $name){
+	    print "$name can read\n";
+	}
+	print "$name can write\n" if -w $name;
+	print "$name can execute\n" if -x $name;
+	   
+}
+
+
+#2
+$filename = shift @ARGV;
+$time = -M $filename;
+foreach $name(@ARGV){
+    $timenew = -M $name;
+	($filename,$time) =($name,$timenew) if $timenew>$time;
+}
+print "filename:$filename,time:$time\n";
+printf "filename:%s,time:%d",$filename,$time;
+
+
+
+# Chapter 13
+#1
+chomp($dir = <STDIN>);
+if ($dir =~ /^\s*$/){
+    chdir or  die "can not chdir home";
+}else{
+    chdir $dir or  die "can not $dir";
+}
+@name = <*>;
+foreach(sort @name){
+    print "$_\n";
+}
+
+#2
+chomp($dir = <STDIN>);
+if ($dir =~ /^\s*$/){
+    chdir or  die "can not chdir home";
+}else{
+    chdir $dir or  die "can not $dir";
+}
+@name = <.* *>;
+foreach(sort @name){
+    print "$_\n";
+}
+
+#3
+chomp($dir = <STDIN>);
+if ($dir =~ /^\s*$/){
+    opendir(DIR,'.') or "can't open",$dir;
+    foreach($file = sort readdir DIR){
+        print "$file\n";
+    }
+	closedir DIR;
+}else{
+    chdir $dir or  die "can not $dir";
+}
+
+
+#4  unlink(rm file);
+
+
