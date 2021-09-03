@@ -143,7 +143,7 @@ while(<STDIN>){
     if(/\./){
         print "point match  ",$_; 
     }
-    if(/[A-Z]/){
+    if(/^[A-Z]/){
         print "Start with a capital letter match  ",$_; 
     }
     if(/(.)\1/){
